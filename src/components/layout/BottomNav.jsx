@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Home, Dumbbell, ClipboardList, Users, TrendingUp } from 'lucide-react'
+import { Home, Dumbbell, ClipboardList, Users, TrendingUp, LineChart } from 'lucide-react'
 
 const NAV_ENTRENADOR = [
   { to: '/dashboard', label: 'Inicio', icon: Home },
@@ -11,6 +11,7 @@ const NAV_ENTRENADOR = [
 const NAV_SOCIO = [
   { to: '/mi-rutina', label: 'Mi Rutina', icon: ClipboardList },
   { to: '/historial', label: 'Historial', icon: TrendingUp },
+  { to: '/progreso', label: 'Progreso', icon: LineChart },
 ]
 
 export default function BottomNav({ rol }) {

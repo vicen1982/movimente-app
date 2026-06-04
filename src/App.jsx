@@ -10,6 +10,7 @@ import DashboardSocio from './pages/socio/Dashboard'
 import Historial from './pages/socio/Historial'
 import DetalleSesion from './pages/socio/DetalleSesion'
 import Entrenar from './pages/socio/Entrenar'
+import Progreso from './pages/socio/Progreso'
 
 export default function App() {
   return (
@@ -29,6 +30,7 @@ export default function App() {
           <Route path="/mi-rutina" element={<DashboardSocio />} />
           <Route path="/historial" element={<Historial />} />
           <Route path="/sesion/:sesionId" element={<DetalleSesion />} />
+          <Route path="/progreso" element={<Progreso />} />
         </Route>
       </Routes>
     </BrowserRouter>

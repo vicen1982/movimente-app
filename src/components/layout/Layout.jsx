@@ -7,7 +7,7 @@ import BottomNav from './BottomNav'
 // Rutas que solo el entrenador puede ver
 const RUTAS_ENTRENADOR = ['/dashboard', '/ejercicios', '/rutinas', '/socios']
 // Rutas que solo el socio puede ver
-const RUTAS_SOCIO = ['/mi-rutina', '/historial', '/sesion']
+const RUTAS_SOCIO = ['/mi-rutina', '/historial', '/sesion', '/progreso']
 
 export default function Layout() {
   const navigate = useNavigate()
