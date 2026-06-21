@@ -11,6 +11,7 @@ import Historial from './pages/socio/Historial'
 import DetalleSesion from './pages/socio/DetalleSesion'
 import Entrenar from './pages/socio/Entrenar'
 import Progreso from './pages/socio/Progreso'
+import ProgresoSocio from './pages/entrenador/ProgresoSocio'
 
 export default function App() {
   return (
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/historial" element={<Historial />} />
           <Route path="/sesion/:sesionId" element={<DetalleSesion />} />
           <Route path="/progreso" element={<Progreso />} />
+          <Route path="/socios/:socioId/progreso" element={<ProgresoSocio />} />
         </Route>
       </Routes>
     </BrowserRouter>

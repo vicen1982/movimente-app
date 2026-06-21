@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { Users, Search, X } from 'lucide-react'
+import { Users, Search, X, TrendingUp } from 'lucide-react'
 import AsignarRutinaModal from '../../components/layout/AsignarRutinaModal'
 
 const COLORES_AVATAR = [
@@ -31,6 +32,7 @@ function obtenerIniciales(nombre, apellido) {
 }
 
 export default function Socios() {
+  const navigate = useNavigate()
   const [socios, setSocios] = useState([])
   // Mapa: socio_id → array de asignaciones con rutina
   const [asignacionesPorSocio, setAsignacionesPorSocio] = useState({})
@@ -153,42 +155,53 @@ export default function Socios() {
           {sociosFiltrados.map((socio) => {
             const asignaciones = asignacionesPorSocio[socio.id] || []
             return (
-              <button
+              <div
                 key={socio.id}
-                onClick={() => setSocioAsignando(socio)}
-                className="card flex items-start gap-4 w-full text-left hover:border-primary transition-colors"
+                className="card flex items-start gap-4"
               >
-                <div className={`w-12 h-12 ${obtenerColorAvatar(socio.id)} rounded-full flex items-center justify-center flex-shrink-0`}>
-                  <span className="font-bold text-sm text-text">
-                    {obtenerIniciales(socio.nombre, socio.apellido)}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium truncate">
-                    {socio.nombre} {socio.apellido}
-                  </p>
-                  {asignaciones.length === 0 ? (
-                    <p className="text-xs text-text-muted">Sin rutinas asignadas</p>
-                  ) : (
-                    <div className="mt-1 space-y-1">
-                      <p className="text-xs text-text-muted">
-                        {asignaciones.length} rutina{asignaciones.length !== 1 ? 's' : ''}:
-                      </p>
-                      <div className="flex flex-wrap gap-1">
-                        {asignaciones.map((a) => (
-                          <span
-                            key={a.id}
-                            className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${OBJETIVO_COLORES[a.rutina?.objetivo] || 'bg-border'}`}
-                          >
-                            {a.rutina?.nombre}
-                          </span>
-                        ))}
+                <button
+                  onClick={() => setSocioAsignando(socio)}
+                  className="flex items-start gap-4 flex-1 min-w-0 text-left"
+                >
+                  <div className={`w-12 h-12 ${obtenerColorAvatar(socio.id)} rounded-full flex items-center justify-center flex-shrink-0`}>
+                    <span className="font-bold text-sm text-text">
+                      {obtenerIniciales(socio.nombre, socio.apellido)}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium truncate">
+                      {socio.nombre} {socio.apellido}
+                    </p>
+                    {asignaciones.length === 0 ? (
+                      <p className="text-xs text-text-muted">Sin rutinas asignadas</p>
+                    ) : (
+                      <div className="mt-1 space-y-1">
+                        <p className="text-xs text-text-muted">
+                          {asignaciones.length} rutina{asignaciones.length !== 1 ? 's' : ''}:
+                        </p>
+                        <div className="flex flex-wrap gap-1">
+                          {asignaciones.map((a) => (
+                            <span
+                              key={a.id}
+                              className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${OBJETIVO_COLORES[a.rutina?.objetivo] || 'bg-border'}`}
+                            >
+                              {a.rutina?.nombre}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-                <span className="text-text-muted">›</span>
-              </button>
+                    )}
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => navigate(`/socios/${socio.id}/progreso`)}
+                  className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center hover:bg-primary hover:text-white transition-colors text-primary"
+                  title="Ver progreso"
+                >
+                  <TrendingUp size={16} />
+                </button>
+              </div>
             )
           })}
         </div>
