@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useOutletContext, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { Dumbbell, ClipboardList, Play } from 'lucide-react'
+import { Dumbbell, ClipboardList, Play, StickyNote } from 'lucide-react'
 
 const COLORES_GRUPO = {
   pecho: 'bg-pecho',
@@ -195,7 +195,10 @@ export default function DashboardSocio() {
                   {` · ${re.descanso_seg}s descanso`}
                 </p>
                 {re.notas && (
-                  <p className="text-xs text-primary mt-1 italic">📝 {re.notas}</p>
+                  <p className="text-xs text-primary mt-1 italic flex items-center gap-1">
+                    <StickyNote size={12} className="flex-shrink-0" />
+                    {re.notas}
+                  </p>
                 )}
               </div>
             </div>

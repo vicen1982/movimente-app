@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, Outlet, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { LogOut, Dumbbell } from 'lucide-react'
+import { LogOut } from 'lucide-react'
 import BottomNav from './BottomNav'
+import logo from '../../assets/logo.jpeg'
 
 // Rutas que solo el entrenador puede ver
 const RUTAS_ENTRENADOR = ['/dashboard', '/ejercicios', '/rutinas', '/socios']
@@ -76,27 +77,29 @@ export default function Layout() {
   return (
     <div className="min-h-screen bg-bg pb-20">
       {/* Header */}
-      <div className="bg-secondary p-4 sticky top-0 z-40">
-        <div className="max-w-md mx-auto flex justify-between items-center">
+      <div className="bg-secondary sticky top-0 z-40 border-b-2 border-primary">
+        <div className="max-w-md mx-auto flex justify-between items-center p-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-              <Dumbbell className="text-white" size={20} />
-            </div>
+            <img
+              src={logo}
+              alt="Movimente"
+              className="w-10 h-10 rounded-xl object-cover shadow-md shadow-primary/30"
+            />
             <div>
               <span className="text-white font-serif font-bold text-lg block leading-tight">
                 Movimente
               </span>
-              <span className="text-white/60 text-xs">
+              <span className="text-primary-light/80 text-xs">
                 {profile?.nombre} {profile?.apellido}
               </span>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="text-white/60 hover:text-white transition-colors"
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-colors"
             title="Cerrar sesión"
           >
-            <LogOut size={20} />
+            <LogOut size={18} />
           </button>
         </div>
       </div>

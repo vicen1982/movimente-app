@@ -18,8 +18,8 @@ export default {
           soft: '#1F1F1F',         // Negro suave — cards oscuras
         },
         accent: {
-          DEFAULT: '#0F6E56',      // Verde teal — PRs, logros, destacados
-          light: '#E1F5EE',        // Verde claro — badges de logros
+          DEFAULT: '#BA7517',      // Ámbar — PRs, logros, destacados
+          light: '#FAEEDA',        // Ámbar claro — badges de logros
         },
         bg: '#FAFAF7',             // Off-white cálido — fondo general
         surface: '#FFFFFF',        // Blanco — cards, inputs

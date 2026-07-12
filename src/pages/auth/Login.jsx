@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { Dumbbell } from 'lucide-react'
+import logo from '../../assets/logo.jpeg'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -58,11 +58,12 @@ export default function Login() {
       <div className="w-full max-w-sm">
         {/* Header con logo */}
         <div className="flex flex-col items-center mb-10">
-          <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center mb-4 shadow-lg">
-            <Dumbbell className="text-white" size={32} />
-          </div>
-          <h1 className="text-3xl font-serif font-bold text-white">Movimente</h1>
-          <p className="text-sm text-text-muted mt-2">Entrenamientos</p>
+          <img
+            src={logo}
+            alt="Movimente"
+            className="w-32 h-32 rounded-2xl object-cover mb-5 shadow-lg shadow-primary/40"
+          />
+          <p className="text-sm text-primary-light/70 uppercase tracking-widest text-xs">Entrenamientos</p>
         </div>
 
         {/* Card del formulario */}
@@ -159,8 +160,8 @@ export default function Login() {
         </div>
 
         {/* Footer */}
-        <p className="text-center text-xs text-text-muted mt-6">
-          Entrená con propósito 💪
+        <p className="text-center text-xs text-white/40 mt-6 uppercase tracking-widest">
+          Entrená con propósito
         </p>
       </div>
     </div>
