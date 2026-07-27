@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { X } from 'lucide-react'
+import { subirImagenEjercicio } from '../../lib/imagenes'
+import { X, ImagePlus } from 'lucide-react'
 
 const GRUPOS = [
   { value: 'pecho', label: 'Pecho' },
@@ -17,8 +18,18 @@ export default function NuevoEjercicioModal({ onClose, onCreado }) {
   const [nombre, setNombre] = useState('')
   const [grupoMuscular, setGrupoMuscular] = useState('pecho')
   const [descripcion, setDescripcion] = useState('')
+  const [archivo, setArchivo] = useState(null)
+  const [preview, setPreview] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const inputArchivo = useRef(null)
+
+  const handleSeleccionarImagen = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setArchivo(file)
+    setPreview(URL.createObjectURL(file))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -28,12 +39,18 @@ export default function NuevoEjercicioModal({ onClose, onCreado }) {
     try {
       const { data: { user } } = await supabase.auth.getUser()
 
+      let imagenUrl = null
+      if (archivo) {
+        imagenUrl = await subirImagenEjercicio(archivo)
+      }
+
       const { data, error } = await supabase
         .from('ejercicios')
         .insert({
           nombre: nombre.trim(),
           grupo_muscular: grupoMuscular,
           descripcion: descripcion.trim() || null,
+          imagen_url: imagenUrl,
           creado_por: user.id,
         })
         .select()
@@ -114,6 +131,44 @@ export default function NuevoEjercicioModal({ onClose, onCreado }) {
               className="input-field resize-none"
               rows={3}
             />
+          </div>
+
+          <div>
+            <label className="text-xs text-text-muted uppercase tracking-wider font-medium block mb-1.5">
+              Imagen del ejercicio <span className="lowercase font-normal">(opcional)</span>
+            </label>
+            <input
+              ref={inputArchivo}
+              type="file"
+              accept="image/*"
+              onChange={handleSeleccionarImagen}
+              className="hidden"
+            />
+            {preview ? (
+              <div className="relative">
+                <img
+                  src={preview}
+                  alt="Vista previa"
+                  className="w-full h-40 object-cover rounded-xl border border-border"
+                />
+                <button
+                  type="button"
+                  onClick={() => { setArchivo(null); setPreview(null) }}
+                  className="absolute top-2 right-2 w-8 h-8 bg-black/60 text-white rounded-lg flex items-center justify-center hover:bg-black/80"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => inputArchivo.current?.click()}
+                className="w-full h-24 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-1 text-text-muted hover:border-primary hover:text-primary transition-colors"
+              >
+                <ImagePlus size={22} />
+                <span className="text-xs">Subir imagen (muestra el músculo trabajado)</span>
+              </button>
+            )}
           </div>
 
           {error && (

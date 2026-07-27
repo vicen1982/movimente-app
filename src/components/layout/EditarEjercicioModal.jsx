@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
-import { X, Trash2 } from 'lucide-react'
+import { subirImagenEjercicio } from '../../lib/imagenes'
+import { X, Trash2, ImagePlus } from 'lucide-react'
 
 const GRUPOS = [
   { value: 'pecho', label: 'Pecho' },
@@ -17,9 +18,20 @@ export default function EditarEjercicioModal({ ejercicio, onClose, onActualizado
   const [nombre, setNombre] = useState(ejercicio.nombre)
   const [grupoMuscular, setGrupoMuscular] = useState(ejercicio.grupo_muscular)
   const [descripcion, setDescripcion] = useState(ejercicio.descripcion || '')
+  const [imagenUrl, setImagenUrl] = useState(ejercicio.imagen_url || null)
+  const [archivo, setArchivo] = useState(null)
+  const [preview, setPreview] = useState(null)
   const [loading, setLoading] = useState(false)
   const [confirmandoEliminar, setConfirmandoEliminar] = useState(false)
   const [error, setError] = useState('')
+  const inputArchivo = useRef(null)
+
+  const handleSeleccionarImagen = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setArchivo(file)
+    setPreview(URL.createObjectURL(file))
+  }
 
   const handleGuardar = async (e) => {
     e.preventDefault()
@@ -27,12 +39,18 @@ export default function EditarEjercicioModal({ ejercicio, onClose, onActualizado
     setLoading(true)
 
     try {
+      let urlFinal = imagenUrl
+      if (archivo) {
+        urlFinal = await subirImagenEjercicio(archivo)
+      }
+
       const { data, error } = await supabase
         .from('ejercicios')
         .update({
           nombre: nombre.trim(),
           grupo_muscular: grupoMuscular,
           descripcion: descripcion.trim() || null,
+          imagen_url: urlFinal,
         })
         .eq('id', ejercicio.id)
         .select()
@@ -130,6 +148,55 @@ export default function EditarEjercicioModal({ ejercicio, onClose, onActualizado
                 className="input-field resize-none"
                 rows={3}
               />
+            </div>
+
+            <div>
+              <label className="text-xs text-text-muted uppercase tracking-wider font-medium block mb-1.5">
+                Imagen del ejercicio <span className="lowercase font-normal">(opcional)</span>
+              </label>
+              <input
+                ref={inputArchivo}
+                type="file"
+                accept="image/*"
+                onChange={handleSeleccionarImagen}
+                className="hidden"
+              />
+              {preview || imagenUrl ? (
+                <div className="relative">
+                  <img
+                    src={preview || imagenUrl}
+                    alt="Imagen del ejercicio"
+                    className="w-full h-40 object-cover rounded-xl border border-border"
+                  />
+                  <div className="absolute top-2 right-2 flex gap-1.5">
+                    <button
+                      type="button"
+                      onClick={() => inputArchivo.current?.click()}
+                      className="w-8 h-8 bg-black/60 text-white rounded-lg flex items-center justify-center hover:bg-black/80"
+                      title="Cambiar imagen"
+                    >
+                      <ImagePlus size={15} />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setArchivo(null); setPreview(null); setImagenUrl(null) }}
+                      className="w-8 h-8 bg-black/60 text-white rounded-lg flex items-center justify-center hover:bg-black/80"
+                      title="Quitar imagen"
+                    >
+                      <X size={15} />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => inputArchivo.current?.click()}
+                  className="w-full h-24 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-1 text-text-muted hover:border-primary hover:text-primary transition-colors"
+                >
+                  <ImagePlus size={22} />
+                  <span className="text-xs">Subir imagen (muestra el músculo trabajado)</span>
+                </button>
+              )}
             </div>
 
             {error && (

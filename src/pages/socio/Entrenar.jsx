@@ -287,9 +287,17 @@ export default function Entrenar() {
         </div>
       </div>
       <main className="flex-1 max-w-md mx-auto w-full p-6">
-        <div className={'w-20 h-20 ' + COLORES_GRUPO[ejercicioActual.ejercicio?.grupo_muscular] + ' rounded-2xl flex items-center justify-center mx-auto mb-4'}>
-          <Dumbbell size={36} className="text-text" />
-        </div>
+        {ejercicioActual.ejercicio?.imagen_url ? (
+          <img
+            src={ejercicioActual.ejercicio.imagen_url}
+            alt={ejercicioActual.ejercicio.nombre}
+            className="w-44 h-44 rounded-2xl object-cover mx-auto mb-4 border border-border shadow-sm"
+          />
+        ) : (
+          <div className={'w-20 h-20 ' + COLORES_GRUPO[ejercicioActual.ejercicio?.grupo_muscular] + ' rounded-2xl flex items-center justify-center mx-auto mb-4'}>
+            <Dumbbell size={36} className="text-text" />
+          </div>
+        )}
         <h1 className="text-2xl font-serif font-bold text-center mb-1">
           {ejercicioActual.ejercicio?.nombre}
         </h1>

@@ -184,9 +184,17 @@ export default function DashboardSocio() {
               <span className="text-text-muted text-sm font-medium w-5 text-center">
                 {idx + 1}
               </span>
-              <div className={`w-10 h-10 ${COLORES_GRUPO[re.ejercicio?.grupo_muscular]} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                <Dumbbell size={16} className="text-text" />
-              </div>
+              {re.ejercicio?.imagen_url ? (
+                <img
+                  src={re.ejercicio.imagen_url}
+                  alt={re.ejercicio.nombre}
+                  className="w-10 h-10 rounded-lg object-cover flex-shrink-0 border border-border"
+                />
+              ) : (
+                <div className={`w-10 h-10 ${COLORES_GRUPO[re.ejercicio?.grupo_muscular]} rounded-lg flex items-center justify-center flex-shrink-0`}>
+                  <Dumbbell size={16} className="text-text" />
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">{re.ejercicio?.nombre}</p>
                 <p className="text-xs text-text-muted">

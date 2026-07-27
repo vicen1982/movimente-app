@@ -172,11 +172,19 @@ export default function Ejercicios() {
               onClick={() => setEjercicioEditando(ej)}
               className="card flex items-center gap-4 hover:border-primary transition-colors w-full text-left"
             >
-              <div
-                className={`w-12 h-12 ${COLORES_GRUPO[ej.grupo_muscular] || 'bg-border'} rounded-xl flex items-center justify-center flex-shrink-0`}
-              >
-                <Dumbbell size={20} className="text-text" />
-              </div>
+              {ej.imagen_url ? (
+                <img
+                  src={ej.imagen_url}
+                  alt={ej.nombre}
+                  className="w-12 h-12 rounded-xl object-cover flex-shrink-0 border border-border"
+                />
+              ) : (
+                <div
+                  className={`w-12 h-12 ${COLORES_GRUPO[ej.grupo_muscular] || 'bg-border'} rounded-xl flex items-center justify-center flex-shrink-0`}
+                >
+                  <Dumbbell size={20} className="text-text" />
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <p className="font-medium truncate">{ej.nombre}</p>
                 <p className="text-xs text-text-muted capitalize">
