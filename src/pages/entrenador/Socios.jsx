@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { Users, Search, X, TrendingUp } from 'lucide-react'
+import { Users, Search, X, TrendingUp, ClipboardCheck } from 'lucide-react'
 import AsignarRutinaModal from '../../components/layout/AsignarRutinaModal'
 
 const COLORES_AVATAR = [
@@ -194,13 +194,22 @@ export default function Socios() {
                   </div>
                 </button>
 
-                <button
-                  onClick={() => navigate(`/socios/${socio.id}/progreso`)}
-                  className="flex-shrink-0 w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center hover:bg-primary hover:text-white transition-colors text-primary"
-                  title="Ver progreso"
-                >
-                  <TrendingUp size={16} />
-                </button>
+                <div className="flex flex-col gap-1.5 flex-shrink-0">
+                  <button
+                    onClick={() => navigate(`/socios/${socio.id}/progreso`)}
+                    className="w-9 h-9 rounded-lg bg-primary-light flex items-center justify-center hover:bg-primary hover:text-white transition-colors text-primary"
+                    title="Ver progreso"
+                  >
+                    <TrendingUp size={16} />
+                  </button>
+                  <button
+                    onClick={() => navigate(`/socios/${socio.id}/evaluaciones`)}
+                    className="w-9 h-9 rounded-lg bg-accent-light flex items-center justify-center hover:bg-accent hover:text-white transition-colors text-accent"
+                    title="Evaluaciones"
+                  >
+                    <ClipboardCheck size={16} />
+                  </button>
+                </div>
               </div>
             )
           })}
